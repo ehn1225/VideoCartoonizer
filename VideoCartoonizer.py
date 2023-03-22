@@ -1,9 +1,11 @@
-#2023-03-22
+#2023-03-22 LeeYeChan
 #Video To Cartoon Style
 import cv2
 import numpy as np
-
-#Load the video(sample : "bird.mp4", "recorder.mp4"")
+threshold1 = 600
+threshold2 = 1200
+aperture_size = 5
+#Load the video(sample : "bird.mp4", "recoder.mp4"")
 video = cv2.VideoCapture("bird.mp4")
 
 if video.isOpened():
@@ -24,9 +26,17 @@ if video.isOpened():
         #convert to cartoon style
         gray = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
         gray = cv2.medianBlur(gray, 5)
-        edges = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 9)
+
+        #Change Edge Detection Method(Append Canny Edge Detection)
+        edges = cv2.Canny(gray, threshold1, threshold2, apertureSize=aperture_size)
+        edges =  cv2.bitwise_not(edges)
+        edges2 = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 9)
+        edges3 = cv2.bitwise_or(edges2, edges2, mask=edges) #Combine Canny Edge and Adaptive Threshold
         color = cv2.bilateralFilter(original, 9, 300, 300)
-        cartoon = cv2.bitwise_and(color, color, mask=edges)
+        cartoon = cv2.bitwise_or(color, color, mask=edges3)
+
+        #Cartoonization function provided by OpenCV
+        #cartoon2 = cv2.stylization(original, sigma_s=170, sigma_r=0.3)
 
         #Concat Images Vertically
         result = cv2.vconcat([original, cartoon])
