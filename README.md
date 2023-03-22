@@ -9,4 +9,4 @@
 Python 파일을 실행하면 위에는 원본 영상, 아래에는 만화화된 영상이 재생됩니다.<br>
 
 <h2>실행 화면</h2>
-<img src="https://user-images.githubusercontent.com/5174517/226780452-cd065b99-1367-4911-b256-138f1fe59848.png" width="700" height="370">
+<img src="https://user-images.githubusercontent.com/5174517/226780452-cd065b99-1367-4911-b256-138f1fe59848.png" width="642" height="752">
